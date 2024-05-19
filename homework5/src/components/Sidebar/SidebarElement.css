@@ -1,0 +1,43 @@
+.film-list-item {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    border-bottom: 1px solid #ccc;
+  }
+  
+  .film-image-sidebar {
+    width: 50px;
+    height: 70px;
+    margin-right: 10px;
+  }
+  .film-details-sidebar {
+    display: flex;
+    align-items: center; 
+    justify-content: space-between;
+    width: 100%;
+  }
+  
+  .film-title-sidebar {
+    flex: 1;
+    font-size: 16px;
+    font-weight: bold;
+    color: #333;
+    text-decoration: none;
+    
+  }
+  
+  .delete-button-sidebar {
+    border-radius: 8px;
+    padding: 8px 12px;
+    border: 1px solid transparent;
+    margin: 5px;
+    background-color: #f45855;
+    color: #fff;
+    cursor: pointer;
+  }
+  .delete-button-sidebar:hover {
+    background-color: #ed0a06;
+  }
+
+
+  

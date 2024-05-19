@@ -1,0 +1,16 @@
+.searchTitle {
+    width: 300px;
+    padding: 10px; 
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px; 
+  }
+  
+.searchTitle::placeholder {
+    color: #999; 
+  }
+  
+.searchTitle:focus {
+    border-color: #66afe9; 
+    outline: none; 
+  }
