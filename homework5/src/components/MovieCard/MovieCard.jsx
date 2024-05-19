@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { useDispatch } from 'react-redux';
 import { addFavoriteMovie, removeFavoriteMovie, addWatchLaterMovie, removeWatchLaterMovie } from '../../reduser/favoriteAndLaterMovieSlice';
 import './MovieCard.css'
-
+import React from 'react';
 const MovieCard = ({ movie, isFavorite, isWatchLater }) => {
   const {
     id,
@@ -31,7 +31,7 @@ const MovieCard = ({ movie, isFavorite, isWatchLater }) => {
   return (
     <div className="movie-card">
       <img className="movie-image" src={image} alt={title} />
-      
+
       <div className="movie-details">
         <div className="info-row">
           <Link className='link' to={`/films/${id}`}>{title}</Link>
@@ -41,7 +41,15 @@ const MovieCard = ({ movie, isFavorite, isWatchLater }) => {
         </div>
         <div className="info-row">
           <p><strong>Страна:</strong> {country}</p>
-          <p><strong>Жанры:</strong> {genres.join(', ')}</p>
+          <p><strong>Жанры: </strong>
+          {genres.map((genre, index) => (
+  <React.Fragment key={index}>
+    <Link className='link-genre' to={`/search?title=&genres=${encodeURIComponent(genre)}`}>{genre}</Link>
+    {index < genres.length - 1 && ", "}
+  </React.Fragment>
+))}
+
+          </p>
         </div>
         <div className="info-row">
           <p><strong>Актёры:</strong> {actors.join(', ')}</p>
