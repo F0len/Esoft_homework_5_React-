@@ -9,7 +9,6 @@ const filterOnType =(movies , type) => {
 }
 
 const sortMovies = (movies, sortBy) =>{
-  
   if (sortBy === 'ratingAsc') {
     return [...movies].sort((a, b) => a.rating - b.rating);
   } else if (sortBy === 'ratingDesc') {
@@ -17,16 +16,14 @@ const sortMovies = (movies, sortBy) =>{
   }
 }
 
-
 const HomePage = () => {
   const movies = useSelector((state) => state.movies.movies);
   const loading = useSelector((state) => state.movies.loading);
   const error = useSelector((state) => state.movies.error);
-  
-  const [selectedMoviesOnType, setSelectedMoviesOnType] = useState([]);
-  const [sortedMovies, setsortedMovies] = useState([]);
-  const [filterType, setfilterType] = useState('');
-  const [typeSort, settypeSort] = useState('');
+
+  const [sortedMovies, setSortedMovies] = useState([]);
+  const [filterType, setFilterType] = useState('');
+  const [sortType, setSortType] = useState('');
 
   const favoriteMovies = useSelector((state) => state.favoriteAndLater.favoriteMovies);
   const laterMovies = useSelector((state) => state.favoriteAndLater.laterMovies);
@@ -40,34 +37,35 @@ const HomePage = () => {
   }, [dispatch, movies]);
 
 
+  useEffect(() => {
+    let filteredMovies = movies;
+
+    if (filterType) {
+      filteredMovies = filterOnType(movies, filterType);
+    } 
+    if (sortType) {
+      const sorted = sortMovies(filteredMovies, sortType);
+      setSortedMovies(sorted);
+    } else {
+      setSortedMovies(filteredMovies);
+    }
+  }, [movies, filterType, sortType]);
+
   const handleSortByRating = (sortBy) => {
-    settypeSort (()=>sortBy);
-    setsortedMovies(()=> sortMovies(movies,sortBy));
-    setfilterType (()=>'');
-    
+    setSortType(sortBy);
   };
 
   const handleFilterByType = (type) => {
-    setSelectedMoviesOnType(() => filterOnType(movies,type));
-    setfilterType(()=> type);
-    settypeSort(()=>'');
+    setFilterType(type);
   };
-
-let moviesToDisplay = movies;
-  if (filterType) {
-    
-    moviesToDisplay = selectedMoviesOnType;
-  } else if (typeSort)  {
-    moviesToDisplay = sortedMovies;
-  }
   
   return (
     <div>
       <div className="movie-list">
-      <button className='sort-button button' onClick={() => handleSortByRating('ratingAsc')}>Сортировать по возрастанию рейтинга</button>
-      <button className='sort-button button' onClick={() => handleSortByRating('ratingDesc')}>Сортировать по убыванию рейтинга</button>
-      <button className='sort-button button' onClick={() => handleFilterByType('Фильм')}>Фильмы</button>
-      <button className='sort-button button' onClick={() => handleFilterByType('Сериал')}>Сериалы</button>
+      <button className={`sort-button  ${sortType=="ratingAsc" ? 'active' : ''} button`} onClick={() => handleSortByRating('ratingAsc')}>Сортировать по возрастанию рейтинга</button>
+      <button className={`sort-button  ${sortType=="ratingDesc" ? 'active' : ''} button`} onClick={() => handleSortByRating('ratingDesc')}>Сортировать по убыванию рейтинга</button>
+      <button className={`sort-button  ${filterType=="Фильм" ? 'active' : ''} button`} onClick={() => handleFilterByType('Фильм')}>Фильмы</button>
+      <button className={`sort-button  ${filterType=="Сериал" ? 'active' : ''} button`} onClick={() => handleFilterByType('Сериал')}>Сериалы</button>
     
       {loading ? (
         <div className="loading-spinner"></div>
@@ -75,7 +73,7 @@ let moviesToDisplay = movies;
         <div className="error-message">Error: {error}</div>
       ) : (
         
-        moviesToDisplay.map((movie) => (
+        sortedMovies.map((movie) => (
           <MovieCard
             key={movie.id}
             movie={movie}

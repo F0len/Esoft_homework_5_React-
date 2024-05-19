@@ -4,3 +4,6 @@
 .sort-button {
     margin: 10px;
 }
+.button.active{
+    background-color: #9a9a9a;
+}

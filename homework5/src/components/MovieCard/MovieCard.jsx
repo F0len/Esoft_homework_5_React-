@@ -42,12 +42,12 @@ const MovieCard = ({ movie, isFavorite, isWatchLater }) => {
         <div className="info-row">
           <p><strong>Страна:</strong> {country}</p>
           <p><strong>Жанры: </strong>
-          {genres.map((genre, index) => (
-  <React.Fragment key={index}>
-    <Link className='link-genre' to={`/search?title=&genres=${encodeURIComponent(genre)}`}>{genre}</Link>
-    {index < genres.length - 1 && ", "}
-  </React.Fragment>
-))}
+            {genres.map((genre, index) => (
+              <React.Fragment key={index}>
+                <Link className='link-genre' to={`/search?title=&genres=${encodeURIComponent(genre)}`}>{genre}</Link>
+                {index < genres.length - 1 && ", "}
+              </React.Fragment>
+            ))}
 
           </p>
         </div>
